@@ -1,7 +1,7 @@
 # Flächenstatistik
 
 
-![Flächenstatistik Deutschland 2019](https://raw.githubusercontent.com/oklabflensburg/open-surface-map/main/screenshot_surface_map.png)
+![Flächenstatistik Deutschland 2019](https://raw.githubusercontent.com/oklabflensburg/open-surface-map/main/screenshot_surface_map.jpg)
 
 _Haftungsausschluss: Dieses Repository und die zugehörige Datenbank befinden sich derzeit in einer Beta-Version. Einige Aspekte des Codes und der Daten können noch Fehler enthalten. Bitte kontaktieren Sie uns per E-Mail oder erstellen Sie ein Issue auf GitHub, wenn Sie einen Fehler entdecken._
 
