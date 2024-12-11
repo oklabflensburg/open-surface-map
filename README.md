@@ -22,3 +22,19 @@ Nach einhergehender Analyse der bereitgestellten Daten der statistischen Ämter 
 
 Unser Ziel ist es in Vorbereitung auf die Filter Möglichkeiten und die Umkreissuche Postgis zu nutzen und die MultiPolygonen im WKB Format zu
 hinerlegen und zu indexieren. Für die initiale Anwendung konnten wir nach dem Import der Daten der Verwaltungsgebiete in der Variante VG5000 vom Bundesamt für Kartographie und Geodäsie (BKG) die Durch Abfragen über die ÜBereinstimmung des Amtlichen Gemeinde Schlüssels zu den Daten die entsprechenden MultiPolygonen ausgeben. Diese Ausgabe haben wir nach der Spezifikation [RFC 7946](https://geojson.org) ins GeoJSON Format umgewandelt und in die Abfrage einebunden. Wir nutzen die grafische Darstellung nutzen wir [OpenSteetMap](https://www.openstreetmap.de) Tiles welche wir über die Biblothek [Leaflet](https://leafletjs.com) abrufen und die GeoJson Ergenisse darstellen und anklickbar machen.
+
+
+---
+
+
+## How to Contribute
+
+Contributions are welcome! Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) guide for details on how to get involved.
+
+
+---
+
+
+## License
+
+This repository is licensed under [CC0-1.0](LICENSE).
