@@ -18,10 +18,60 @@ Diese interaktive webbasierte Karte zeigt die Verteilung der verschiedenen Fläc
 
 ## Technische Umsetzung
 
-Nach einhergehender Analyse der bereitgestellten Daten der statistischen Ämter des Bundes haben wir diese Daten extrahiert und in eine Postgres Datenbank importiert. 
+Das Frontend verwendet [MapLibre GL JS](https://maplibre.org/) statt Leaflet, modernes JavaScript ohne Framework und einen [Vite](https://vite.dev/)-Build. [Tailwind CSS](https://tailwindcss.com/docs/installation/using-vite) wird beim Build kompiliert; JavaScript und CSS werden lokal ausgeliefert.
 
-Unser Ziel ist es in Vorbereitung auf die Filter Möglichkeiten und die Umkreissuche Postgis zu nutzen und die MultiPolygonen im WKB Format zu
-hinerlegen und zu indexieren. Für die initiale Anwendung konnten wir nach dem Import der Daten der Verwaltungsgebiete in der Variante VG5000 vom Bundesamt für Kartographie und Geodäsie (BKG) die Durch Abfragen über die ÜBereinstimmung des Amtlichen Gemeinde Schlüssels zu den Daten die entsprechenden MultiPolygonen ausgeben. Diese Ausgabe haben wir nach der Spezifikation [RFC 7946](https://geojson.org) ins GeoJSON Format umgewandelt und in die Abfrage einebunden. Wir nutzen die grafische Darstellung nutzen wir [OpenSteetMap](https://www.openstreetmap.de) Tiles welche wir über die Biblothek [Leaflet](https://leafletjs.com) abrufen und die GeoJson Ergenisse darstellen und anklickbar machen.
+Die Daten wurden ursprünglich aus den statistischen Daten und den Verwaltungsgebieten zusammengeführt. Die Anwendung lädt weiterhin einmalig das **unveränderte statische GeoJSON** `public/data/gem31122019flaechen.geojson` unter `/data/gem31122019flaechen.geojson`. Die übrigen Dateien unter `data/` bleiben historische Daten- und Abfrageartefakte; für den Betrieb wird keine Datenbank benötigt. OpenStreetMap liefert weiterhin die Raster-Hintergrundkarte.
+
+PBF/MVT und eine mögliche spätere Anbindung an PostGIS und Martin sind ausdrücklich ein separater Schritt. Dieser Stand enthält weder neue Backend-Endpunkte noch Daten- oder Schemaänderungen.
+
+## Voraussetzungen
+
+- Node.js **22.12 oder neuer** (empfohlen: eine unterstützte LTS-Version; geprüft mit 22.22.3)
+- npm (geprüft mit 12.0.2)
+- Ein moderner Browser mit WebGL-Unterstützung
+
+## Development
+
+```bash
+npm install
+npm run dev
+```
+
+Vite zeigt die lokale URL an (standardmäßig `http://localhost:5173`). Die Lockdatei wird mitversioniert; für reproduzierbare Installationen steht auch `npm ci` zur Verfügung.
+
+## Production Build
+
+```bash
+npm run build
+```
+
+Den Inhalt von `dist/` auf einem statischen Webserver veröffentlichen. `index.html`, `impressum.html` (einschließlich Datenschutzanker) und `lizenz.html` werden gemeinsam gebaut. `public/` wird unverändert nach `dist/` kopiert. Der Standard-Build wird am Domain-Root ausgeliefert. Für ein Unterverzeichnis kann Vites `base` eingestellt werden; Daten- und Konfigurationspfade berücksichtigen diese Einstellung.
+
+## Preview
+
+```bash
+npm run preview
+```
+
+Die Vorschau dient der lokalen Prüfung des fertigen Builds, nicht als Produktionsserver.
+
+## Ortssuche und externe Dienste
+
+Die Suche nutzt weiterhin Nominatim und wird ausschließlich mit Enter oder „Suchen“ ausgelöst. Der Endpunkt steht in `public/config.json` und nach dem Build in `dist/config.json`. Betreiber können die ausgelieferte Konfiguration ohne JavaScript-Neubuild auf eine andere Nominatim-kompatible HTTPS-Instanz umstellen.
+
+**Die [Nominatim-Nutzungsbedingungen](https://operations.osmfoundation.org/policies/nominatim/) gelten für die gesamte Anwendung: höchstens eine Anfrage pro Sekunde über alle Nutzer hinweg, moderate Nutzung, kein Autocomplete, sichtbare OSM-Attribution und ein identifizierender HTTP-Referer.** Der Client verhindert parallele Anfragen, begrenzt sie pro geöffneter Seite, speichert Suchergebnisse während der Sitzung und behandelt Überlastung. Eine globale Begrenzung über mehrere Besucher kann ein statisches Frontend nicht gewährleisten. Bei höherer Nutzung muss der Betreiber auf einen geeigneten Dienst wechseln. Keine vertraulichen Angaben suchen; Suchbegriffe werden an den konfigurierten Dienst übertragen. Auf dem Host darf der Referer für OSM-Dienste nicht unterdrückt werden.
+
+Für die Rasterkarte gelten die [OSM Tile Usage Policy](https://operations.osmfoundation.org/policies/tiles/) und die dortigen Vorgaben zu Attribution und HTTP-Caching. Es werden nur sichtbare Kartenausschnitte angefragt, keine Offline-Downloads oder systematischen Abrufe.
+
+## Prüfungen
+
+```bash
+npm test
+npm run build
+npm run preview
+```
+
+`npm test` verwendet den integrierten Node-Test-Runner für die Bounds-Berechnung und ungültige Geometrien. Die [Migrationsnotizen](docs/maplibre-migration.md) dokumentieren die Property-Zuordnung, Feature-IDs, Browser-Smoke-Checks und bekannte Grenzen.
 
 
 ---

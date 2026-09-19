@@ -1,0 +1,109 @@
+@import 'tailwindcss' source(none);
+@source '../index.html';
+@source '../impressum.html';
+@source '../lizenz.html';
+@source './details.js';
+
+/* Keep the prototype's Tailwind 3 colors when compiling with Tailwind 4. */
+@theme {
+  --color-gray-100: #f3f4f6;
+  --color-gray-300: #d1d5db;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-900: #111827;
+  --color-green-300: #86efac;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+:focus-visible {
+  outline: 2px solid #002db4;
+  outline-offset: 2px;
+}
+
+.map-panel {
+  position: relative;
+}
+
+#map {
+  height: 40vh;
+}
+
+.search {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: min(320px, calc(100% - 64px));
+  padding: 8px;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 5px #0006;
+  font-size: 14px;
+}
+
+.search fieldset {
+  display: flex;
+  gap: 6px;
+}
+
+.search input {
+  min-width: 0;
+  width: 100%;
+  border: 1px solid #9ca3af;
+  padding: 4px;
+}
+
+.search button {
+  cursor: pointer;
+  border: 1px solid #9ca3af;
+  padding: 4px 8px;
+}
+
+.search :disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.search ul {
+  max-height: 20vh;
+  overflow-y: auto;
+}
+
+.search li button {
+  width: 100%;
+  text-align: left;
+  margin-top: 4px;
+}
+
+.search button:hover {
+  background: #f3f4f6;
+}
+
+#search-status:empty {
+  display: none;
+}
+
+#search-status {
+  margin-top: 4px;
+}
+
+.municipality-tooltip {
+  pointer-events: none;
+}
+
+.municipality-tooltip .maplibregl-popup-content {
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+@media (min-width: 768px) {
+  #map, #filter {
+    height: 96vh;
+  }
+}
